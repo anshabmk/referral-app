@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: "api/v1/sessions" }
+  devise_for :users, controllers: { sessions: "api/v1/sessions", registrations: "api/v1/registrations" }
 
   root "home#index"
   get "/*path" => "home#index"
