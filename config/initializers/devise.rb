@@ -314,6 +314,6 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   config.jwt do |jwt|
-    jwt.secret = Rails.application.secrets.secret_key_base
+    jwt.secret = "7d31bc795000896440de5c48c52c24fdd2296c18f449abe98822af7740492b00337f663c6c9fc026483f4de278630e59260b9e95fb282cdf7c5b5660fccef309"
   end
 end

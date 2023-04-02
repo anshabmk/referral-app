@@ -27,7 +27,6 @@ const LoginPage = () => {
       const response = await axios.post("/users/sign_in", {
         user: { email, password },
       });
-
       document.cookie = `userToken=${response.headers.authorization}`;
       navigate("/");
     } catch (error) {

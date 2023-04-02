@@ -1,0 +1,3 @@
+<p>Hi there,</p>
+<p>You have been referred to our app by <%= @referral.user.email %>!</p>
+<p>Click <a href="<%= root_url(referral_token: @referral.referral_token) %>">here</a> to sign up and get started.</p>
