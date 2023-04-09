@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { Button, TextField, Box, Typography, Container, Link } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Container,
+  Link,
+  CircularProgress,
+} from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,17 +29,17 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // TODO: Call API to login user with email and password
-    console.log(`Logging in with email: ${email} and password: ${password}`);
-
     try {
+      setLoading(true);
       const response = await axios.post("/users/sign_in", {
         user: { email, password },
       });
       document.cookie = `userToken=${response.headers.authorization}`;
+      setLoading(false);
       navigate("/");
     } catch (error) {
       setError("Invalid email or password");
+      setLoading(false);
     }
   };
 
@@ -73,12 +82,13 @@ const LoginPage = () => {
             onChange={handlePasswordChange}
           />
           <Button
+            disabled={loading}
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Login
+            {loading ? <CircularProgress color="inherit" size={25} /> : "Login"}
           </Button>
           <Link href="/signup" variant="body2">
             New user? Click here to signup

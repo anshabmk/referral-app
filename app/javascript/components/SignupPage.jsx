@@ -6,12 +6,14 @@ import {
   Typography,
   Container,
   Link,
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import axios from "axios";
 
 const SignupPage = () => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [password, setPassword] = useState("");
@@ -24,18 +26,21 @@ const SignupPage = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await axios.post("/users", {
         user: {
           email,
           password,
           password_confirmation: passwordConfirmation,
         },
-        referral_token: referralToken
+        referral_token: referralToken,
       });
 
       navigate("/login");
+      setLoading(false);
     } catch (error) {
       setError(error.response.data.error.join(" ,"));
+      setLoading(false);
     }
   };
 
@@ -82,8 +87,14 @@ const SignupPage = () => {
             value={passwordConfirmation}
             onChange={(e) => setPasswordConfirmation(e.target.value)}
           />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-            Sign up
+          <Button
+            disabled={loading}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            {loading ? <CircularProgress color="inherit" size={25} /> : "Sign up"}
           </Button>
           <Link href="/login" variant="body2">
             Already signed up? Click here to login
