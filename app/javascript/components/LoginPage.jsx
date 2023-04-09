@@ -28,6 +28,7 @@ const LoginPage = () => {
         user: { email, password },
       });
 
+      document.cookie = `userToken=${response.headers.authorization}`;
       navigate("/");
     } catch (error) {
       setError("Invalid email or password");
