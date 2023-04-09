@@ -1,6 +1,6 @@
 class Referral < ApplicationRecord
   belongs_to :user
-  before_create :set_referral_token
+  before_validation :set_referral_token
 
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :referral_token, presence: true, uniqueness: { case_sensitive: false }

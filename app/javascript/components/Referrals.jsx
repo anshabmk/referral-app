@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import LogoutIcon from "@mui/icons-material/Logout";
 import {
   Button,
   TextField,
@@ -27,7 +28,7 @@ const Referrals = () => {
       await axios.post(
         "/api/v1/referrals",
         { email },
-        { withCredentials: true }
+        { headers: { Authorization: getCookie("userToken") } }
       );
       setEmail("");
       fetchReferrals();
@@ -50,15 +51,32 @@ const Referrals = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await axios.delete("/users/sign_out", {
+        headers: { Authorization: getCookie("userToken") },
+      });
+      console.log(response.data.message);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchReferrals();
   }, []);
 
   return (
     <Box sx={{ maxWidth: 500, margin: "auto" }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Referrals
-      </Typography>
+      <Box component="span">
+        <Typography variant="h4" component="h1" sx={{ float: "left" }} gutterBottom>
+          Referrals
+        </Typography>
+        <Button variant="outlined" size="small" sx={{ float: "right" }} endIcon={<LogoutIcon />} onClick={handleLogout}>
+          Logout
+        </Button>
+      </Box>
       <TextField
         id="email"
         label="Email"
