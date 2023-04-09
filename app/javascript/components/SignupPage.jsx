@@ -1,21 +1,36 @@
 import React, { useState } from "react";
-import { TextField, Button, Box, Typography, Container, Link } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  Link,
+} from "@mui/material";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import axios from "axios";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const referralToken = searchParams.get("referral_token");
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post("/users", {
-        user: { email, password, password_confirmation: passwordConfirmation },
+        user: {
+          email,
+          password,
+          password_confirmation: passwordConfirmation,
+        },
+        referral_token: referralToken
       });
 
       navigate("/login");
@@ -78,6 +93,6 @@ const SignupPage = () => {
       </Box>
     </Container>
   );
-}
+};
 
 export default SignupPage;

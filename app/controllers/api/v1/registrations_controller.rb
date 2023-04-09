@@ -6,6 +6,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     user = User.new(user_params)
 
     if user.save
+      handle_referral(user) if params[:referral_token].present?
       render json: { user: user }
     else
       render json: { error: user.errors.full_messages }, status: :unprocessable_entity
@@ -16,5 +17,18 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation)
+  end
+
+  def handle_referral(user)
+    pending_referral = Referral.find_by(
+      email: user.email,
+      referral_token: params[:referral_token],
+      pending: true
+    )
+
+    return if pending_referral.blank?
+
+    user.update!(referrer_id: pending_referral.user_id)
+    pending_referral.update!(pending: false)
   end
 end

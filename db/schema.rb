@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_09_034832) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_09_142612) do
   create_table "jwt_denylist", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "jti", null: false
     t.datetime "exp", null: false
@@ -35,9 +35,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_034832) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "referrer_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["referrer_id"], name: "index_users_on_referrer_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "referrals", "users"
+  add_foreign_key "users", "users", column: "referrer_id"
 end
