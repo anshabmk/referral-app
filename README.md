@@ -1,24 +1,31 @@
-# README
+# Referral App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Getting started
 
-Things you may want to cover:
+### Pre-requisities
 
-* Ruby version
+- Ruby version: 3.0.1
+- Rails version: 7.0.4.3
+- MySQL version: 8.0.32
+- Node.js version: 19.0.1
 
-* System dependencies
+### Setting up the project for development
 
-* Configuration
+1. Clone the repository
+```
+$ git clone git@github.com:anshabmk/referral-app.git && cd referral-app/
+```
 
-* Database creation
+2. Install dependencies
 
-* Database initialization
+Make sure you have supplied database credentials in database.yml before this step!
+```
+$ bin/setup
+```
 
-* How to run the test suite
+3. Run server (Rails & React)
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Copy `.env.sample` file to `.env` and provide actual values for the environment variables before proceeding!
+```
+$ bin/dev
+```
